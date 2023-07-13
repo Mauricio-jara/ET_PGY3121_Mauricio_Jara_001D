@@ -18,37 +18,47 @@
     <div class="container fondo2 bordes">
         <br>
         <div class="row">
-            {% for producto in productos %}
-            <div class="col-12 col-md-4">
-                <br>
-                <div class="card text-center">
-                    {% if producto.imagen %}
-                        <img src="{{ producto.imagen.url }}" class="card-img-top mx-auto imagen">
-                    {% else %} 
-                        <img src="{% static 'img/sinfoto.webp' %}" class="card-img-top mx-auto imagen">
-                    {% endif %}   
-                    <div class="card-body">
-                        <h4 class="card-title">
-                            {{ producto.nombre }}
-                        </h4>
-                        <p class="card-text">
-                            {{ producto.descripcion }}<br>
-                        </p>
-                        <a href="#" class="btn btn-success">Comprar</a>
-                        {% if user.is_superuser %}
-                        <a href="{% url 'modificar' producto.dv %}" class="btn btn-warning">Modificar</a>
-                        <a href="{% url 'eliminar' producto.dv %}" class="btn btn-danger">Eliminar</a>
-                        {% endif %}
-                    </div>                   
+            <div class="col-8">
+                <div class="row" style="padding: 5px 0;">
+                    <div class="col-12">
+                        <div class="row">
+                            {% for producto in productos %}
+                            <div class="col-6">
+                                <div class="card text-center">
+                                    {% if producto.imagen %}
+                                        <img src="{{ producto.imagen.url }}" class="card-img-top" width="300px" height="500px">
+                                    {% else %}
+                                        <img src="{% static 'img/sinfoto.webp' %}" class="card-img-top mx-auto">
+                                    {% endif %}
+                                    <div class="card-body">
+                                        <p class="card-text">
+                                            Marca : {{ producto.nombre }}<br>
+                                            Modelo: {{ producto.descripcion }}<br>
+                                            Precio:$ {{ producto.precio }}<br>
+                                            cantidad: {{producto.cantidad}}<br>
+                                        </p>
+                                        <a href="{% url 'agregar' producto.dv %}" class="btn btn-outline-success">Agregar al carro</a>
+                                        {% if user.is_superuser %}
+                                            <a href="{% url 'modificar' producto.dv %}" class="btn btn-warning">Modificar</a>
+                                            <a href="{% url 'eliminar' producto.dv %}" class="btn btn-danger">Eliminar</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                            {% endfor %}
+                          </div>
+                        </div>
+                    </div>
                 </div>
+            <div class="col-4">
+                {% include "carrito.html" %}
             </div>
-            {% endfor %}
         </div>
-        <br>
         {% if user.is_superuser %}
         <a href="{% url 'crear' %}" class="btn btn-warning">Crear</a>
         {% endif %}
-        <br><br>
+        <br>
     </div>
     <br>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
